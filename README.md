@@ -1,11 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project README</title>
-</head>
-<body>
 
 <h1>🤖 Autonomous Agent for Mistral-LLM Interaction 🚀</h1>
 
@@ -45,7 +38,7 @@
 
 <p>Follow these steps to launch the project:</p>
 <ol>
-    <li><strong>Clone the Repository:</strong> Get the project on your local machine using the command <code>git clone [repository-url]</code>.</li>
+    <li><strong>Clone the Repository:</strong> Get the project on your local machine using the command <code>git clone https://github.com/GhaithMag/My_First_Auto_Agent.git</code>.</li>
     <li><strong>Navigate to the Project Root:</strong> Move to the project's root directory.</li>
     <li><strong>Install Dependencies:</strong> Install all the necessary dependencies to ensure the project runs smoothly.</li>
     <li><strong>Launch the Project:</strong> Run the command <code>python app.py</code> to launch the project. Once launched, access the web interface by navigating to <code>http://127.0.0.1:5000.</code></li>
