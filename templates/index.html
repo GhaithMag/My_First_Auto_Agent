@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>AutoBuddy</title> <!-- Change the title here -->
+
+    <style>
+        .hidden {
+            display: none;
+        }
+        
+        /* Center the title */
+        h1 {
+            text-align: center;
+        }
+    </style>
+</head>
+
+
+<body>
+    <h1>AutoBuddy</h1>
+    <div class="chatbox">
+        <div class="chat-messages" id="chat-messages">
+            <!-- Les messages seront insérés ici -->
+        </div>
+        <div class="user-input" id="user-input">
+            <input type="text" id="context" placeholder="Context">
+            <input type="text" id="detail" placeholder="Detail">
+            <button id="send">Send</button>
+        </div>
+        <!-- Ajout du message d'attente -->
+        <div id="loading-message" style="display: none;">
+            Processing your request, please wait...
+        </div>
+    </div>
+    <script>
+        const sendButton = document.getElementById("send");
+        const userInput = document.getElementById("user-input");
+        const loadingMessage = document.getElementById("loading-message"); // Nouveau
+        let isWaitingForResponse = false;
+
+        sendButton.addEventListener("click", function() {
+            const chatMessages = document.getElementById("chat-messages");
+            const context = document.getElementById("context").value;
+            const detail = document.getElementById("detail").value;
+
+            if (isWaitingForResponse) {
+                return;
+            }
+
+            userInput.classList.add('hidden');  // Cacher le formulaire
+            loadingMessage.style.display = "block"; // Afficher le message d'attente. Nouveau
+            
+            isWaitingForResponse = true;
+
+            // Afficher le message de l'utilisateur
+            const userMessage = document.createElement("p");
+            userMessage.className = "message user";
+            userMessage.textContent = `${context}: ${detail}`;
+            chatMessages.appendChild(userMessage);
+
+            // Appel API pour obtenir la réponse de l'agent
+            fetch("/get_response/", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    'context': context,
+                    'detail': detail
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Afficher le message de l'agent
+                const agentMessage = document.createElement("p");
+                agentMessage.className = "message agent";
+                agentMessage.textContent = data.response;
+                chatMessages.appendChild(agentMessage);
+
+                userInput.classList.remove('hidden');  // Réafficher le formulaire
+                loadingMessage.style.display = "none"; // Cacher le message d'attente. Nouveau
+                isWaitingForResponse = false;
+            });
+        });
+    </script>
+</body>
+
+</html>
